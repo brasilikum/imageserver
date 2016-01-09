@@ -46,7 +46,7 @@ func TestGetMiss(t *testing.T, cache imageserver_cache.Cache) {
 	}
 }
 
-// MapCache is a simple Cache (it wraps a map) for tests.
+// MapCache is a simple imageserver/cache.Cache implementation (it wraps a map) for tests.
 type MapCache struct {
 	mutex sync.RWMutex
 	data  map[string]*imageserver.Image
@@ -59,14 +59,14 @@ func NewMapCache() *MapCache {
 	}
 }
 
-// Get implements Cache.
+// Get implements imageserver/cache.Cache.
 func (cache *MapCache) Get(key string, params imageserver.Params) (*imageserver.Image, error) {
 	cache.mutex.RLock()
 	defer cache.mutex.RUnlock()
 	return cache.data[key], nil
 }
 
-// Set implements Cache.
+// Set implements imageserver/cache.Cache.
 func (cache *MapCache) Set(key string, im *imageserver.Image, params imageserver.Params) error {
 	cache.mutex.Lock()
 	defer cache.mutex.Unlock()
